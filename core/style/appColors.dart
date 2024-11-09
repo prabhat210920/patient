@@ -13,6 +13,7 @@ class AppColors {
   static const primaryColor = Color(0xFF2A9988);
   static const errorColor = Color(0xFFD32F2F);
   static const redAcent = Color(0xFFF56B62);
+  static const lightGrey = Color(0xffE9E9E9);
   static const Color blackText = Color(0xff011411);
   static const xSmallTextColor = Color(0xFFF3F3F3);
   static const labelColor = Colors.redAccent;

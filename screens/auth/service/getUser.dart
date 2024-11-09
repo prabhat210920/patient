@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:doctor/core/constant/appUrls.dart';
 import 'package:doctor/core/utils/getAccessToken.dart';
 import 'package:doctor/models/user.dart';
@@ -16,7 +15,7 @@ class GetUser extends GetxController {
     final url = Uri.parse(AppUrls.getUser);
 
     final res = await http.get(url, headers: headers);
-    if (res.statusCode == 200) {
+    if (res.statusCode >= 200 && res.statusCode < 300) {
       final List<dynamic> jsonData = json.decode(res.body);
       return jsonData.map((json) => UserModel.fromJson(json)).toList();
     } else {

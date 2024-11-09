@@ -1,7 +1,7 @@
 import 'package:doctor/core/style/appColors.dart';
 import 'package:doctor/screens/appoinment/appoinment.dart';
-import 'package:doctor/screens/home/HomeScreen.dart';
-import 'package:doctor/screens/more/morePage.dart';
+import 'package:doctor/screens/home/screens/HomeScreen.dart';
+import 'package:doctor/screens/more/profile.dart';
 import 'package:doctor/screens/service/bottomeNavigationController.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,7 +25,11 @@ class _TabBarPage extends State<TabBarPage> {
   final BottomNavController bottomNavController =
       Get.put(BottomNavController());
 
-  final List<Widget> _pages = [HomeScreen(), Appoinment(), MorePage()];
+  final List<Widget> _pages = [
+    const HomeScreen(),
+    const Appoinment(),
+    ProfilePage()
+  ];
 
   @override
   Widget build(BuildContext context) {

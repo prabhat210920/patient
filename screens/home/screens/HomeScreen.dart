@@ -1,11 +1,22 @@
 import 'package:doctor/core/constant/imagePaths.dart';
 import 'package:doctor/core/style/appColors.dart';
+import 'package:doctor/screens/home/controller/getDoctor.dart';
+import 'package:doctor/screens/home/screens/doctorBySpeciality.dart';
+import 'package:doctor/screens/home/screens/speciality.dart';
+import 'package:doctor/screens/home/widgets/doctorCard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final GetDoctor getDoctor = Get.put(GetDoctor());
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +54,14 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        actions: [
-          const Icon(Icons.notifications, color: Colors.black),
-          const SizedBox(width: 10),
+        actions: const [
+          Icon(Icons.notifications, color: Colors.black),
+          SizedBox(width: 10),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -152,7 +163,9 @@ class HomeScreen extends StatelessWidget {
                           color: AppColors.blackText,
                           height: 15 / 14)),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(const Speciality());
+                    },
                     child: Text(
                       "View All",
                       style: GoogleFonts.lato(
@@ -188,7 +201,9 @@ class HomeScreen extends StatelessWidget {
                           color: AppColors.blackText,
                           height: 15 / 14)),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(const DoctorBySpeciality());
+                      },
                       child: Text(
                         "View All",
                         style: GoogleFonts.lato(
@@ -201,7 +216,30 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              _doctorCard(),
+              FutureBuilder(
+                  future: getDoctor.fetchDoctors(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: const CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Text('No doctors found');
+                    } else {
+                      final doctors = snapshot.data!;
+                      return Container(
+                        height: 400,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          itemCount: doctors.length,
+                          itemBuilder: (context, index) {
+                            final doctor = doctors[index];
+                            return Container(child: DoctorCard(doctor: doctor));
+                          },
+                        ),
+                      );
+                    }
+                  }),
             ],
           ),
         ),
@@ -233,98 +271,6 @@ class HomeScreen extends StatelessWidget {
                 color: AppColors.blackText.withOpacity(0.8),
                 letterSpacing: 0.15)),
       ],
-    );
-  }
-
-  Widget _doctorCard() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x24000000),
-            offset: Offset(2, 4),
-            blurRadius: 14,
-            spreadRadius: 0,
-          ),
-        ],
-        borderRadius:
-            BorderRadius.circular(8), // Optional: Add rounded corners if needed
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child: Image.asset(
-                  ImagePaths.doctorCardImage,
-                  height: 100,
-                  width: 85,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Text(
-                "18 years exp",
-                style: GoogleFonts.lato(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    height: 16 / 14,
-                    color: AppColors.primaryColor),
-              ),
-              OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.all(12),
-                  side: const BorderSide(color: Colors.red),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        12), // Set your desired radius here
-                  ),
-                ),
-                child: Text(
-                  "View Details",
-                  style: GoogleFonts.rubik(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      height: 16 / 12,
-                      color: AppColors.redAcent),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Dr. Raman Kaur",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const Text(
-                  "Heart Surgeon",
-                ),
-                const Text("18 Years Exp  |  4.5/120 Reviews"),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    const SizedBox(width: 8),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Book Now"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

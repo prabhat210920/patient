@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
           return const GetStarted();
         }
       }),
-      // home: BasicInformationPage(),
+      // home: const TabBarPage(),
     );
   }
 }

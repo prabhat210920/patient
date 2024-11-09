@@ -5,4 +5,7 @@ class AppUrls {
   static const verifyOtp = '$baseUrl/account/verify-otp/';
   static const profile = '$baseUrl/patients/';
   static const getUser = '$baseUrl/account/users/';
+  static const getDoctor = '$baseUrl/home/doctors/';
+  static const getLanguage = '$baseUrl/master/languages/';
+  static const getSpecialists = '$baseUrl/master/specialties/';
 }

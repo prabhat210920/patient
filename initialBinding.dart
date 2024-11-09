@@ -1,5 +1,6 @@
 import 'package:doctor/core/utils/getAccessToken.dart';
 import 'package:doctor/data/cache/localData.dart';
+import 'package:doctor/data/network/meta.dart';
 import 'package:doctor/screens/auth/service/getUser.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,7 @@ class Initialbinding extends GetxController {
   var userId = ''.obs;
   var profileCreated = false.obs;
   final LocalData localData = LocalData();
+  final GetMeta getMeta = Get.put(GetMeta());
 
   @override
   void onInit() {
@@ -17,6 +19,7 @@ class Initialbinding extends GetxController {
   }
 
   Future<void> initialize() async {
+    getMeta.init();
     try {
       final token = await getAccessToken();
       if (token != null) {

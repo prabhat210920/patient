@@ -1,4 +1,5 @@
 class ImagePaths {
+  ImagePaths._();
   static const String getStarted = 'assets/images/getStarted.png';
   static const String indFlag = 'assets/images/indiaFlag.png';
   static const String profileAvatar = 'assets/images/profileAvatar.png';
@@ -10,4 +11,12 @@ class ImagePaths {
   static const String cardioLogist = 'assets/icons/cardiologist.png';
   static const String diabetologist = 'assets/icons/diabetologist.png';
   static const String doctorCardImage = 'assets/images/doctorcardImage.png';
+  static const String noDataImage = 'assets/images/noData.png';
+  static const String briefCaseIcon = 'assets/icons/briefcase.png';
+  static const String language = 'assets/icons/language.png';
+  static const String hospitalLogo = 'assets/icons/hospitalLogo.png';
+  static const String wallet = 'assets/icons/wallet.png';
+  static const String helpCenter = 'assets/icons/helpCenter.png';
+  static const String share = 'assets/icons/share.png';
+  static const String logout = 'assets/icons/logout.png';
 }
